@@ -1,4 +1,4 @@
-package androidcourse.com.my_personal_accountant;
+package androidcourse.com.myPersonalAccountant.activity;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

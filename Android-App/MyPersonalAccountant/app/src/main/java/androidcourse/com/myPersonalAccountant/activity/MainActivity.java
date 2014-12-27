@@ -1,9 +1,11 @@
-package androidcourse.com.my_personal_accountant;
+package androidcourse.com.myPersonalAccountant.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidcourse.com.myPersonalAccountant.R;
 
 
 public class MainActivity extends ActionBarActivity {
