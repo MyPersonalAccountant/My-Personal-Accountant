@@ -72,13 +72,6 @@ public class MainActivity extends FragmentActivity {
             args.putBoolean(CalendarCustomFragment.ENABLE_SWIPE, true);
             args.putBoolean(CalendarCustomFragment.SIX_WEEKS_IN_CALENDAR, true);
 
-            // Uncomment this to customize startDayOfWeek
-            // args.putInt(CalendarCustomFragment.START_DAY_OF_WEEK,
-            // CalendarCustomFragment.TUESDAY); // Tuesday
-
-            // Uncomment this line to use Caldroid in compact mode
-            // args.putBoolean(CalendarCustomFragment.SQUARE_TEXT_VIEW_CELL, false);
-
             calendarFragment.setArguments(args);
         }
 
