@@ -1,90 +1,138 @@
 package androidcourse.com.myPersonalAccountant.activity;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.List;
+import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import androidcourse.com.myPersonalAccountant.R;
-import androidcourse.com.myPersonalAccountant.entity.UserOrder;
-import androidcourse.com.myPersonalAccountant.sqlhelper.SqlRepository;
-import androidcourse.com.myPersonalAccountant.sqlhelperImpl.OrderSQLHelper;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends FragmentActivity {
+
+    private boolean undo = false;
+    // change here
+    private CalendarCustomFragment calendarFragment;
+
+    private void setCustomResourceForDates() {
+        Calendar cal = Calendar.getInstance();
+
+        // Min date is last 7 days
+        cal.add(Calendar.DATE, -18);
+        Date blueDate = cal.getTime();
+
+        // Max date is next 7 days
+        cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 16);
+        Date greenDate = cal.getTime();
+
+        if (calendarFragment != null) {
+            calendarFragment.setBackgroundResourceForDate(R.color.blue,
+                    blueDate);
+            calendarFragment.setBackgroundResourceForDate(R.color.green,
+                    greenDate);
+            calendarFragment.setTextColorForDate(R.color.white, blueDate);
+            calendarFragment.setTextColorForDate(R.color.white, greenDate);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    protected void onResume() {
-
         setContentView(R.layout.activity_main);
 
-        Button testButton = (Button) findViewById(R.id.test);
-        testButton.setOnClickListener(new Event(this, testButton));
-        super.onResume();
-    }
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
-    class Event implements View.OnClickListener {
-        Context ctx;
-        Button btn;
+        // Setup fragment
+        calendarFragment = new CalendarCustomFragment();
 
-        public Event(Context ctx, Button btn) {
-            this.ctx = ctx;
-            this.btn = btn;
+        // Setup arguments
+        // If Activity is created after rotation
+        if (savedInstanceState != null) {
+            calendarFragment.restoreStatesFromKey(savedInstanceState,
+                    "CALENDAR_SAVED_STATE");
+        }
+        // If activity is created from fresh
+        else {
+            Bundle args = new Bundle();
+            Calendar cal = Calendar.getInstance();
+            args.putInt(CalendarCustomFragment.MONTH, cal.get(Calendar.MONTH) + 1);
+            args.putInt(CalendarCustomFragment.YEAR, cal.get(Calendar.YEAR));
+            args.putBoolean(CalendarCustomFragment.ENABLE_SWIPE, true);
+            args.putBoolean(CalendarCustomFragment.SIX_WEEKS_IN_CALENDAR, true);
+
+            calendarFragment.setArguments(args);
         }
 
-        @Override
-        public void onClick(View v) {
-            SqlRepository<UserOrder> item = new OrderSQLHelper(ctx);
+        setCustomResourceForDates();
 
-            UserOrder order = new UserOrder();
-            order.setName(" Fahri ");
-            long num = item.insert(order);
+        // Attach to the activity
+        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.calendar1, calendarFragment);
+        t.commit();
 
-            List<UserOrder> orderList = item.getAll();
+        // Setup listener
+        final CaldroidListener listener = new CaldroidListener() {
 
-            String text = "";
-            for (UserOrder o: orderList){
-                text += o.getName();
+            @Override
+            public void onSelectDate(Date date, View view) {
+                Toast.makeText(getApplicationContext(), formatter.format(date),
+                        Toast.LENGTH_SHORT).show();
+
             }
 
-            btn.setText(text);
-            btn.invalidate();
+            @Override
+            public void onChangeMonth(int month, int year) {
+                String text = "month: " + month + " year: " + year;
+                Toast.makeText(getApplicationContext(), text,
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClickDate(Date date, View view) {
+                Toast.makeText(getApplicationContext(),
+                        "Long click " + formatter.format(date),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCaldroidViewCreated() {
+                if (calendarFragment.getLeftArrowButton() != null) {
+                    Toast.makeText(getApplicationContext(),
+                            "View is created", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+
+        };
+
+        // Setup Calendar
+        calendarFragment.setCaldroidListener(listener);
+    }
+
+    /**
+     * Save current states of the Calendar here
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // TODO Auto-generated method stub
+        super.onSaveInstanceState(outState);
+
+        if (calendarFragment != null) {
+            calendarFragment.saveStatesToKey(outState, "CALENDAR_SAVED_STATE");
         }
     }
+
 }
+

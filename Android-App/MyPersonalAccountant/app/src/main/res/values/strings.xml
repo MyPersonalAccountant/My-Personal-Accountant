@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">My-Personal-Accountant</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_test">test</string>
-    <string-array name="test">
-        <item name="one">asdf</item>
-    </string-array>
+
+    <string name="customize">Customize</string>
+    <string name="show_dialog">Show Dialog</string>
+    <string name="undo">Undo</string>
 </resources>
