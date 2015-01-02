@@ -4,5 +4,8 @@
     <string name="app_name">My-Personal-Accountant</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="title_activity_test">test</string>
+    <string-array name="test">
+        <item name="one">asdf</item>
+    </string-array>
 </resources>
