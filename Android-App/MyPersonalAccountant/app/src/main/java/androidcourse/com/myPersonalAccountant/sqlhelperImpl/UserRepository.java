@@ -17,7 +17,7 @@ import androidcourse.com.myPersonalAccountant.util.ConstantsUtil;
 /**
  * Created by Emrah.
  */
-public class UserSQLHelper extends SQLiteOpenHelper implements SqlUserRepository<User> {
+public class UserRepository extends RepositoryImpl<User> implements SqlUserRepository<User> {
 
     private static Context ctx;
 
@@ -33,10 +33,8 @@ public class UserSQLHelper extends SQLiteOpenHelper implements SqlUserRepository
     private static String DB_COLUMN_ADDRESS = "address";
     private static String DB_COLUMN_PHONE = "phone";
 
-
-    public UserSQLHelper(Context ctx) {
-        super(ctx, ConstantsUtil.DATABASE_NAME, null, DATABASE_VERSION);
-        UserSQLHelper.ctx = ctx;
+    public UserRepository(Context ctx){
+        super(ctx, ConstantsUtil.DATABASE_NAME, DATABASE_VERSION, TABLE_NAME);
     }
 
     @Override
@@ -53,67 +51,21 @@ public class UserSQLHelper extends SQLiteOpenHelper implements SqlUserRepository
         );
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists " + TABLE_NAME);
-        this.onCreate(db);
+    protected ContentValues objToContentValues(User item) {
+        ContentValues cv = new ContentValues();
+        cv.put(DB_COLUMN_ID, item.getId());
+        cv.put(DB_COLUMN_NAME, item.getName());
+        cv.put(DB_COLUMN_PASSWORD, item.getPassword());
+        cv.put(DB_COLUMN_EMAIL, item.getEmail());
+        cv.put(DB_COLUMN_BIRTH_DATE, CalendarUtil.tryDateToString(item.getBirthDate()));
+        cv.put(DB_COLUMN_COUNTRY, item.getCountry());
+        cv.put(DB_COLUMN_ADDRESS, item.getAddress());
+        cv.put(DB_COLUMN_PHONE, item.getPhone());
+        return cv;
     }
 
     @Override
-    public List<User> getAll() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
-        List<User> users = new ArrayList<User>();
-        cursor.moveToFirst();
-        while (cursor.isAfterLast() == false) {
-            users.add(cursorToUser(cursor));
-            cursor.moveToNext();
-        }
-
-        return users;
-    }
-
-    @Override
-    public User getByID(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + TABLE_NAME + " where id = " + id, null);
-
-        if (res.getCount() <= 0) {
-            return null;
-        } else {
-            res.moveToFirst();
-            return cursorToUser(res);
-        }
-    }
-
-    @Override
-    public Long insert(User item) {
-        ContentValues cv = objToContentValues(item);
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        return db.insert(TABLE_NAME, null, cv);
-    }
-
-    @Override
-    public Integer update(User item) {
-        ContentValues cv = objToContentValues(item);
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        return db.update(TABLE_NAME, cv, "id = " + item.getId(), null);
-    }
-
-    @Override
-    public int delete(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, "id = " + id, null);
-    }
-
-    @Override
-    public int delete(User item) {
-        return this.delete(item.getId());
-    }
-
-    private User cursorToUser(Cursor cursor) {
+    protected User cursorToObj(Cursor cursor) {
         User user = new User();
 
         user.setId(cursor.getInt(cursor.getColumnIndex(DB_COLUMN_ID)));
@@ -129,19 +81,6 @@ public class UserSQLHelper extends SQLiteOpenHelper implements SqlUserRepository
         user.setPhone(cursor.getString(cursor.getColumnIndex(DB_COLUMN_PHONE)));
 
         return user;
-    }
-
-    private ContentValues objToContentValues(User item) {
-        ContentValues cv = new ContentValues();
-        cv.put(DB_COLUMN_ID, item.getId());
-        cv.put(DB_COLUMN_NAME, item.getName());
-        cv.put(DB_COLUMN_PASSWORD, item.getPassword());
-        cv.put(DB_COLUMN_EMAIL, item.getEmail());
-        cv.put(DB_COLUMN_BIRTH_DATE, CalendarUtil.tryDateToString(item.getBirthDate()));
-        cv.put(DB_COLUMN_COUNTRY, item.getCountry());
-        cv.put(DB_COLUMN_ADDRESS, item.getAddress());
-        cv.put(DB_COLUMN_PHONE, item.getPhone());
-        return cv;
     }
 
     @Override

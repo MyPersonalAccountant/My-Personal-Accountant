@@ -4,10 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidcourse.com.myPersonalAccountant.entity.Schedule;
 import androidcourse.com.myPersonalAccountant.entity.UserOrder;
@@ -19,7 +15,7 @@ import androidcourse.com.myPersonalAccountant.util.SqlUtil;
 /**
  * Created by Emrah.
  */
-public class ScheduleSQLHelper extends SQLiteOpenHelper implements SqlRepository<Schedule> {
+public class ScheduleRepository extends RepositoryImpl<Schedule> implements SqlRepository<Schedule> {
 
     private static final Integer DATABASE_VERSION = 1;
     private static final String TABLE_NAME = Schedule.class.getSimpleName();
@@ -35,8 +31,9 @@ public class ScheduleSQLHelper extends SQLiteOpenHelper implements SqlRepository
 
     private Context ctx;
 
-    public ScheduleSQLHelper(Context ctx) {
-        super(ctx, ConstantsUtil.DATABASE_NAME, null, DATABASE_VERSION);
+    public ScheduleRepository(Context ctx) {
+        super(ctx, ConstantsUtil.DATABASE_NAME, DATABASE_VERSION, TABLE_NAME);
+        this.ctx = ctx;
     }
 
     @Override
@@ -54,74 +51,9 @@ public class ScheduleSQLHelper extends SQLiteOpenHelper implements SqlRepository
         );
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists " + TABLE_NAME);
-        this.onCreate(db);
-    }
 
     @Override
-    public List<Schedule> getAll() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
-        List<Schedule> items = new ArrayList<Schedule>();
-        cursor.moveToFirst();
-        while (cursor.isAfterLast() == false) {
-            items.add(cursorToObj(cursor));
-            cursor.moveToNext();
-        }
-
-        return items;
-    }
-
-    @Override
-    public Schedule getByID(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from " + TABLE_NAME + " where id = " + id, null);
-
-        if (res.getCount() <= 0) {
-            return null;
-        } else {
-            res.moveToFirst();
-            return cursorToObj(res);
-        }
-    }
-
-    private Schedule cursorToObj(Cursor res) {
-
-        return null;
-    }
-
-    @Override
-    public Long insert(Schedule item) {
-        ContentValues cv = objToContentValues(item);
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        return db.insert(TABLE_NAME, null, cv);
-    }
-
-
-    @Override
-    public Integer update(Schedule item) {
-        ContentValues cv = objToContentValues(item);
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        return db.update(TABLE_NAME, cv, "id = " + item.getId(), null);
-
-    }
-
-    @Override
-    public int delete(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, "id = " + id, null);
-    }
-
-    @Override
-    public int delete(Schedule item) {
-        return this.delete(item.getId());
-    }
-
-    private ContentValues objToContentValues(Schedule item) {
+    protected ContentValues objToContentValues(Schedule item) {
         ContentValues cv = new ContentValues();
 
         cv.put(DATABASE_COLUMN_ID, item.getId());
@@ -134,5 +66,11 @@ public class ScheduleSQLHelper extends SQLiteOpenHelper implements SqlRepository
         cv.put(DATABASE_COLUMN_USER_ORDER_ID, item.getUserOrder() == null ? null : item.getUserOrder().getId());
 
         return cv;
+    }
+
+    @Override
+    protected Schedule cursorToObj(Cursor cursor) {
+
+        return null;
     }
 }
