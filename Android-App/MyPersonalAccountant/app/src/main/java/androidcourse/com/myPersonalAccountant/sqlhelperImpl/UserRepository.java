@@ -4,15 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidcourse.com.myPersonalAccountant.entity.User;
 import androidcourse.com.myPersonalAccountant.sqlhelper.SqlUserRepository;
 import androidcourse.com.myPersonalAccountant.util.CalendarUtil;
-import androidcourse.com.myPersonalAccountant.util.ConstantsUtil;
 
 /**
  * Created by Emrah.
@@ -33,8 +28,8 @@ public class UserRepository extends RepositoryImpl<User> implements SqlUserRepos
     private static String DB_COLUMN_ADDRESS = "address";
     private static String DB_COLUMN_PHONE = "phone";
 
-    public UserRepository(Context ctx){
-        super(ctx, ConstantsUtil.DATABASE_NAME, DATABASE_VERSION, TABLE_NAME);
+    public UserRepository(Context ctx) {
+        super(ctx, TABLE_NAME);
     }
 
     @Override

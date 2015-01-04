@@ -7,12 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidcourse.com.myPersonalAccountant.entity.Category;
 import androidcourse.com.myPersonalAccountant.entity.Expense;
-import androidcourse.com.myPersonalAccountant.entity.Schedule;
 import androidcourse.com.myPersonalAccountant.entity.User;
 import androidcourse.com.myPersonalAccountant.entity.UserOrder;
 import androidcourse.com.myPersonalAccountant.sqlhelper.SqlRepository;
 import androidcourse.com.myPersonalAccountant.util.CalendarUtil;
-import androidcourse.com.myPersonalAccountant.util.ConstantsUtil;
 import androidcourse.com.myPersonalAccountant.util.SqlUtil;
 
 /**
@@ -35,7 +33,7 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
     private Context ctx;
 
     public OrderRepository(Context ctx) {
-        super(ctx, ConstantsUtil.DATABASE_NAME, DATABASE_VERSION, TABLE_NAME);
+        super(ctx, TABLE_NAME);
     }
 
     @Override

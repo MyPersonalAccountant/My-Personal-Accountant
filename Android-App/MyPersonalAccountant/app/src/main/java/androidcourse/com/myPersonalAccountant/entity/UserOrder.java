@@ -2,10 +2,12 @@ package androidcourse.com.myPersonalAccountant.entity;
 
 import java.util.Date;
 
+import androidcourse.com.myPersonalAccountant.sqlhelper.Entity;
+
 /**
  * Created by Emrah.
  */
-public class UserOrder {
+public class UserOrder implements Entity {
     private Integer id;
     private String name;
     private String description;

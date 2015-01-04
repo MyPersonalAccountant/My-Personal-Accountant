@@ -1,13 +1,25 @@
 package androidcourse.com.myPersonalAccountant.entity;
 
+import androidcourse.com.myPersonalAccountant.sqlhelper.Entity;
+
 /**
  * Created by Emrah.
  */
-public class FamilyRelationship {
+public class FamilyRelationship implements Entity {
+    private Integer id;
     private String relationShip;
     private User user;
 
     public FamilyRelationship() {
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getRelationShip() {

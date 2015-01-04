@@ -21,9 +21,9 @@ import hirondelle.date4j.DateTime;
  */
 public class CalendarCustomAdapter extends CaldroidGridAdapter {
 
-    public CalendarCustomAdapter (Context context, int month, int year,
-                                  HashMap<String, Object> calendarData,
-                                  HashMap<String, Object> extraData) {
+    public CalendarCustomAdapter(Context context, int month, int year,
+                                 HashMap<String, Object> calendarData,
+                                 HashMap<String, Object> extraData) {
         super(context, month, year, calendarData, extraData);
     }
 
