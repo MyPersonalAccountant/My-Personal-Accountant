@@ -21,29 +21,47 @@ import androidcourse.com.myPersonalAccountant.R;
 
 public class MainActivity extends FragmentActivity {
 
-    private boolean undo = false;
+    public Date lastClickedDate=null;
     // change here
     private CalendarCustomFragment calendarFragment;
 
-    private void setCustomResourceForDates() {
+    private void setCustomResourceForDates(Date date) {
+        Calendar cal = Calendar.getInstance();
+        Date blueDate = null;
+
+//        cal.add(Calendar.DATE,)
+//        // Min date is last 7 days
+//        cal.add(Calendar.DATE, -18);
+//        Date blueDate = cal.getTime();
+//
+//        // Max date is next 7 days
+//        cal = Calendar.getInstance();
+//        cal.add(Calendar.DATE, 16);
+//        Date greenDate = cal.getTime();
+
+
+        if ( (calendarFragment != null) && (blueDate!=null)  ) {
+            calendarFragment.setBackgroundResourceForDate(R.color.blue,blueDate);
+//            calendarFragment.setBackgroundResourceForDate(R.color.green,
+//                    greenDate);
+            calendarFragment.setTextColorForDate(R.color.white, blueDate);
+//            calendarFragment.setTextColorForDate(R.color.white, greenDate);
+        }
+    }
+
+    private void setCustomResourceForDatesTest() {
         Calendar cal = Calendar.getInstance();
 
         // Min date is last 7 days
         cal.add(Calendar.DATE, -18);
         Date blueDate = cal.getTime();
 
-        // Max date is next 7 days
-        cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 16);
-        Date greenDate = cal.getTime();
-
-        if (calendarFragment != null) {
-            calendarFragment.setBackgroundResourceForDate(R.color.blue,
-                    blueDate);
-            calendarFragment.setBackgroundResourceForDate(R.color.green,
-                    greenDate);
+        if ( (calendarFragment != null) && (blueDate!=null)  ) {
+            calendarFragment.setBackgroundResourceForDate(R.color.blue,blueDate);
+//            calendarFragment.setBackgroundResourceForDate(R.color.green,
+//                    greenDate);
             calendarFragment.setTextColorForDate(R.color.white, blueDate);
-            calendarFragment.setTextColorForDate(R.color.white, greenDate);
+//            calendarFragment.setTextColorForDate(R.color.white, greenDate);
         }
     }
 
@@ -75,7 +93,7 @@ public class MainActivity extends FragmentActivity {
             calendarFragment.setArguments(args);
         }
 
-        setCustomResourceForDates();
+        setCustomResourceForDatesTest();
 
         // Attach to the activity
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
@@ -90,6 +108,7 @@ public class MainActivity extends FragmentActivity {
                 Toast.makeText(getApplicationContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
 
+                setCustomResourceForDates(date);
             }
 
             @Override

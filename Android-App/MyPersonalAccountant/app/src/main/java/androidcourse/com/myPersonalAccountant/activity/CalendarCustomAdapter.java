@@ -12,8 +12,10 @@ import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.util.HashMap;
+import java.util.List;
 
 import androidcourse.com.myPersonalAccountant.R;
+import androidcourse.com.myPersonalAccountant.entity.UserOrder;
 import hirondelle.date4j.DateTime;
 
 /**
@@ -23,7 +25,7 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
 
     public CalendarCustomAdapter (Context context, int month, int year,
                                   HashMap<String, Object> calendarData,
-                                  HashMap<String, Object> extraData) {
+                                  HashMap<String, Object> extraData, List<UserOrder> orders) {
         super(context, month, year, calendarData, extraData);
     }
 
@@ -117,6 +119,8 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
 
         // Set custom color if required
         setCustomResources(dateTime, cellView, tv1);
+        setCustomResources(dateTime, cellView, tv2);
+        setCustomResources(dateTime, cellView, tv3);
 
         return cellView;
     }
