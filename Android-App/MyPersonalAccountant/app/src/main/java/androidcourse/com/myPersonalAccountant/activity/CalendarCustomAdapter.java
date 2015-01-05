@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import androidcourse.com.myPersonalAccountant.R;
-import androidcourse.com.myPersonalAccountant.entity.UserOrder;
 import hirondelle.date4j.DateTime;
 
 /**
@@ -25,7 +24,7 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
 
     public CalendarCustomAdapter (Context context, int month, int year,
                                   HashMap<String, Object> calendarData,
-                                  HashMap<String, Object> extraData, List<UserOrder> orders) {
+                                  HashMap<String, Object> extraData) {
         super(context, month, year, calendarData, extraData);
     }
 

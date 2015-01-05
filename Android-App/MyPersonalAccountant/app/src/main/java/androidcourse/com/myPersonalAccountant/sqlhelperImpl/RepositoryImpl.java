@@ -9,9 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidcourse.com.myPersonalAccountant.entity.UserOrder;
 import androidcourse.com.myPersonalAccountant.sqlhelper.Entity;
 import androidcourse.com.myPersonalAccountant.sqlhelper.SqlRepository;
+import androidcourse.com.myPersonalAccountant.util.ConstantsUtil;
 
 /**
  * Created by Emrah.
@@ -20,12 +20,13 @@ public abstract class RepositoryImpl<E extends Entity> extends SQLiteOpenHelper 
 
     private static String TABLE_NAME;
 
-    public RepositoryImpl(Context ctx, String databaseName, int version, String tableName){
-        super(ctx, databaseName, null, version);
+    public RepositoryImpl(Context ctx, String tableName) {
+        super(ctx, ConstantsUtil.DATABASE_NAME, null, ConstantsUtil.DATABASE_VERSION);
         this.TABLE_NAME = tableName;
     }
 
     protected abstract ContentValues objToContentValues(E item);
+
     protected abstract E cursorToObj(Cursor cursor);
 
     @Override

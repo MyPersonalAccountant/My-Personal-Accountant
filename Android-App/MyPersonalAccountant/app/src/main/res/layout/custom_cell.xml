@@ -6,7 +6,7 @@
     android:background="@drawable/cell_bg"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="5dp" >
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/tv1"
@@ -15,14 +15,14 @@
 
     <TextView
         android:id="@+id/tv2"
-        android:textSize="10sp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/tv3"
-        android:textSize="10sp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:textSize="10sp" />
 
 </LinearLayout>

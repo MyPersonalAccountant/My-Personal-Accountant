@@ -1,11 +1,13 @@
 package androidcourse.com.myPersonalAccountant.entity;
 
+import androidcourse.com.myPersonalAccountant.sqlhelper.Entity;
+
 /**
  * Created by Emrah.
  */
-public class Expense {
+public class Expense implements Entity {
     private Integer id;
-    private String type;
+    private String name;
     private String description;
     private User user;
 
@@ -17,12 +19,12 @@ public class Expense {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {

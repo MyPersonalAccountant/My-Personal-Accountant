@@ -3,10 +3,12 @@ package androidcourse.com.myPersonalAccountant.entity;
 import java.util.Date;
 import java.util.List;
 
+import androidcourse.com.myPersonalAccountant.sqlhelper.Entity;
+
 /**
  * Created by Emrah on 30.12.2014 г..
  */
-public class User {
+public class User implements Entity {
     private Integer id;
     private String name;
     private int age;

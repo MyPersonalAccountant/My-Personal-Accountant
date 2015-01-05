@@ -2,10 +2,12 @@ package androidcourse.com.myPersonalAccountant.entity;
 
 import java.util.Date;
 
+import androidcourse.com.myPersonalAccountant.sqlhelper.Entity;
+
 /**
  * Created by Emrah.
  */
-public class Schedule {
+public class Schedule implements Entity {
     private Integer id;
     private String name;
     private Date firstPaymentDate;
