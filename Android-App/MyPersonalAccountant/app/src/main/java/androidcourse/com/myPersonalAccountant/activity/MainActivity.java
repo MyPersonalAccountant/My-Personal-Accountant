@@ -3,6 +3,7 @@ package androidcourse.com.myPersonalAccountant.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -11,8 +12,14 @@ import com.roomorama.caldroid.CaldroidListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import androidcourse.com.myPersonalAccountant.R;
+import androidcourse.com.myPersonalAccountant.entity.Category;
+import androidcourse.com.myPersonalAccountant.entity.UserOrder;
+import androidcourse.com.myPersonalAccountant.sqlhelperImpl.CategoryRepository;
+import androidcourse.com.myPersonalAccountant.sqlhelperImpl.OrderRepository;
 
 
 public class MainActivity extends FragmentActivity {
@@ -70,6 +77,30 @@ public class MainActivity extends FragmentActivity {
 
         // Setup fragment
         calendarFragment = new CalendarCustomFragment();
+        if (calendarFragment!=null) {
+            OrderRepository categorydb = new OrderRepository(this);
+//            for(int i=0;i<100;i++) {
+//                UserOrder test = new UserOrder();
+//                // name
+//                test.setName("Name");
+//                // price
+//                test.setValue(10.50);
+//                // date
+//                Date dd = new Date();
+//                test.setCreatedDate(dd);
+//
+//                categorydb.insert(test);
+//            }
+//            Date dda = new Date();
+//            Log.e("GetCool", String.valueOf(dda.toString()));
+            HashMap<String,List<UserOrder>> categoriesList= null;
+            categoriesList=categorydb.getGroupAll();
+            categorydb.close();
+
+            Log.e("sizeOfList", String.valueOf(categoriesList.size()));
+            Toast.makeText(this,String.valueOf(categoriesList.size()),Toast.LENGTH_LONG);
+            calendarFragment.setOrders(categoriesList);
+        }
 
         // Setup arguments
         // If Activity is created after rotation
@@ -101,8 +132,8 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onSelectDate(Date date, View view) {
-                Toast.makeText(getApplicationContext(), formatter.format(date),
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), formatter.format(date),
+//                        Toast.LENGTH_SHORT).show();
 
                 setCustomResourceForDates(date);
             }
@@ -110,23 +141,23 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onChangeMonth(int month, int year) {
                 String text = "month: " + month + " year: " + year;
-                Toast.makeText(getApplicationContext(), text,
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), text,
+//                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLongClickDate(Date date, View view) {
-                Toast.makeText(getApplicationContext(),
-                        "Long click " + formatter.format(date),
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),
+//                        "Long click " + formatter.format(date),
+//                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCaldroidViewCreated() {
                 if (calendarFragment.getLeftArrowButton() != null) {
-                    Toast.makeText(getApplicationContext(),
-                            "View is created", Toast.LENGTH_SHORT)
-                            .show();
+//                    Toast.makeText(getApplicationContext(),
+//                            "View is created", Toast.LENGTH_SHORT)
+//                            .show();
                 }
             }
 

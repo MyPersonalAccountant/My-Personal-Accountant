@@ -5,6 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 import androidcourse.com.myPersonalAccountant.entity.Category;
 import androidcourse.com.myPersonalAccountant.entity.Expense;
 import androidcourse.com.myPersonalAccountant.entity.User;
@@ -73,6 +80,34 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
         cv.put(DATABASE_COLUMN_USER_ID, order.getUser() == null ? null : order.getUser().getId());
 
         return cv;
+    }
+
+    public HashMap<String,List<UserOrder>> getGroupAll() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
+
+        HashMap<String,List<UserOrder>> orderGroup = new HashMap<String,List<UserOrder>>();
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false) {
+            if (orderGroup!=null) {
+                UserOrder tempOrder=cursorToObj(cursor);
+                List<UserOrder> userList=orderGroup.get(tempOrder.getCreatedDate());
+                if ( userList!=null ) {
+                    userList.add(tempOrder);
+                    orderGroup.put(formatter.format(tempOrder.getCreatedDate()),userList);
+                } else {
+                    userList = new ArrayList<UserOrder>();
+                    userList.add(tempOrder);
+                    orderGroup.put(formatter.format(tempOrder.getCreatedDate()),userList);
+                }
+            } else {
+                List<UserOrder> orders = new ArrayList<UserOrder>();
+                orders.add(cursorToObj(cursor));
+            }
+            cursor.moveToNext();
+        }
+        return orderGroup;
     }
 
     @Override

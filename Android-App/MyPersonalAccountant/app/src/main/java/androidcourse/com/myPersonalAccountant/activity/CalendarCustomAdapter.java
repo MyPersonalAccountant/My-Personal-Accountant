@@ -11,21 +11,28 @@ import android.widget.TextView;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import androidcourse.com.myPersonalAccountant.R;
+import androidcourse.com.myPersonalAccountant.entity.UserOrder;
 import hirondelle.date4j.DateTime;
 
 /**
  * Created by Ado on 12/31/2014.
  */
 public class CalendarCustomAdapter extends CaldroidGridAdapter {
-
+    HashMap<String,List<UserOrder>> allOrders;
     public CalendarCustomAdapter (Context context, int month, int year,
                                   HashMap<String, Object> calendarData,
-                                  HashMap<String, Object> extraData) {
+                                  HashMap<String, Object> extraData, HashMap<String,List<UserOrder>> orders) {
         super(context, month, year, calendarData, extraData);
+        this.allOrders=orders;
     }
 
     @Override
@@ -56,8 +63,7 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
 
         // Set color of the dates in previous / next month
         if (dateTime.getMonth() != month) {
-            tv1.setTextColor(resources
-                    .getColor(com.caldroid.R.color.caldroid_darker_gray));
+            tv1.setTextColor(resources.getColor(com.caldroid.R.color.caldroid_darker_gray));
         }
 
         boolean shouldResetDiabledView = false;
@@ -107,8 +113,22 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
             }
         }
 
+        // set Date;
         tv1.setText("" + dateTime.getDay());
-        tv2.setText("-200000");
+        Double spend=0.0;
+        if (allOrders.size()>0) {
+            Date ddate = new Date(dateTime.getMilliseconds(TimeZone.getTimeZone("GMT-8")));
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+            List<UserOrder> dateValues = allOrders.get(formatter.format(ddate));
+            if (dateValues!=null) {
+                for (int i = 0; i < dateValues.size(); i++) {
+                    spend+=dateValues.get(i).getValue();
+                }
+                if (spend>0) {
+                    tv2.setText("-"+spend.toString());
+                }
+            }
+        }
         tv3.setText("+200000");
 
         // Somehow after setBackgroundResource, the padding collapse.
