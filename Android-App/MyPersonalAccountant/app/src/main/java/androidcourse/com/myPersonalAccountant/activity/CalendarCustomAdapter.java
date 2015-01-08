@@ -127,9 +127,6 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
                 }
                 if (spend>0) {
                     tv2.setText("-"+spend.toString());
-                    Log.e("PossitionOF",ddate.toString());
-                    Log.e("BEFORECONVERT",dateTime.toString());
-                    Log.e("RAZHOD",spend.toString());
                 } else {
                     tv2.setText("");
                 }
