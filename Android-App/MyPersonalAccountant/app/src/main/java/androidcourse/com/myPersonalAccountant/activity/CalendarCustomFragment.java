@@ -25,7 +25,7 @@ public class CalendarCustomFragment extends CaldroidFragment {
     public CaldroidGridAdapter getNewDatesGridAdapter(int month, int year) {
         // TODO Auto-generated method stub
 
-//        extraData.put("Expenses",orders);
+        extraData.put("expenses",orders);
         return new CalendarCustomAdapter(getActivity(), month, year,
                 getCaldroidData(), extraData, orders);
     }

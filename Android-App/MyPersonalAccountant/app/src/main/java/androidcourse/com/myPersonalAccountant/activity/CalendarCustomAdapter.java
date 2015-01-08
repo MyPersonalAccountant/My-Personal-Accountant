@@ -33,7 +33,7 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
                                   HashMap<String, Object> calendarData,
                                   HashMap<String, Object> extraData, HashMap<String,List<UserOrder>> orders) {
         super(context, month, year, calendarData, extraData);
-        this.allOrders=orders;
+        this.allOrders= (HashMap<String,List<UserOrder>>)extraData.get("expenses");
     }
 
     @Override
@@ -127,7 +127,14 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
                 }
                 if (spend>0) {
                     tv2.setText("-"+spend.toString());
+                    Log.e("PossitionOF",ddate.toString());
+                    Log.e("BEFORECONVERT",dateTime.toString());
+                    Log.e("RAZHOD",spend.toString());
+                } else {
+                    tv2.setText("");
                 }
+            } else {
+                tv2.setText("");
             }
         }
         tv3.setText("+200000");

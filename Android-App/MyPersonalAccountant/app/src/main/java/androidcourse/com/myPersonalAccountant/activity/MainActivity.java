@@ -108,7 +108,7 @@ public class MainActivity extends FragmentActivity {
         // Setup arguments
         // If Activity is created after rotation
         if (savedInstanceState != null) {
-            calendarFragment.restoreStatesFromKey(savedInstanceState,
+                calendarFragment.restoreStatesFromKey(savedInstanceState,
                     "CALENDAR_SAVED_STATE");
         }
         // If activity is created from fresh
@@ -135,8 +135,8 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onSelectDate(Date date, View view) {
-//                Toast.makeText(getApplicationContext(), formatter.format(date),
-//                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), formatter.format(date),
+                        Toast.LENGTH_SHORT).show();
 
                 setCustomResourceForDates(date);
             }
@@ -150,9 +150,9 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onLongClickDate(Date date, View view) {
-//                Toast.makeText(getApplicationContext(),
-//                        "Long click " + formatter.format(date),
-//                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                        "Long click " + formatter.format(date),
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
