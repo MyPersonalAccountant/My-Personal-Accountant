@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -79,26 +80,28 @@ public class MainActivity extends FragmentActivity {
         calendarFragment = new CalendarCustomFragment();
         if (calendarFragment!=null) {
             OrderRepository categorydb = new OrderRepository(this);
-//            for(int i=0;i<100;i++) {
-//                UserOrder test = new UserOrder();
-//                // name
-//                test.setName("Name");
-//                // price
-//                test.setValue(10.50);
-//                // date
-//                Date dd = new Date();
-//                test.setCreatedDate(dd);
-//
-//                categorydb.insert(test);
-//            }
-//            Date dda = new Date();
-//            Log.e("GetCool", String.valueOf(dda.toString()));
+            for(int i=0;i<1;i++) {
+                UserOrder test = new UserOrder();
+                // name
+                test.setName("Name");
+                // price
+                test.setValue(10.50);
+                // date
+                Date dd = null;
+                try{
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // here set the pattern as you date in string was containing like date/month/year
+                    dd = sdf.parse("07/01/2015");
+                }catch(ParseException ex){
+                    // handle parsing exception if date string was different from the pattern applying into the SimpleDateFormat contructor
+                }
+                test.setCreatedDate(dd);
+                categorydb.insert(test);
+            }
+            Date dda = new Date();
             HashMap<String,List<UserOrder>> categoriesList= null;
             categoriesList=categorydb.getGroupAll();
             categorydb.close();
 
-            Log.e("sizeOfList", String.valueOf(categoriesList.size()));
-            Toast.makeText(this,String.valueOf(categoriesList.size()),Toast.LENGTH_LONG);
             calendarFragment.setOrders(categoriesList);
         }
 

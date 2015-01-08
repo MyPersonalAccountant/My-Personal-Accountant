@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -92,7 +93,7 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
         while (cursor.isAfterLast() == false) {
             if (orderGroup!=null) {
                 UserOrder tempOrder=cursorToObj(cursor);
-                List<UserOrder> userList=orderGroup.get(tempOrder.getCreatedDate());
+                List<UserOrder> userList=orderGroup.get(formatter.format(tempOrder.getCreatedDate()));
                 if ( userList!=null ) {
                     userList.add(tempOrder);
                     orderGroup.put(formatter.format(tempOrder.getCreatedDate()),userList);
@@ -102,8 +103,10 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
                     orderGroup.put(formatter.format(tempOrder.getCreatedDate()),userList);
                 }
             } else {
+                UserOrder tempOrder=cursorToObj(cursor);
                 List<UserOrder> orders = new ArrayList<UserOrder>();
-                orders.add(cursorToObj(cursor));
+                orders.add(tempOrder);
+                orderGroup.put(formatter.format(tempOrder.getCreatedDate()),orders);
             }
             cursor.moveToNext();
         }
