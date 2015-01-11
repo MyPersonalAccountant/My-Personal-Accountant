@@ -1,5 +1,6 @@
 package androidcourse.com.myPersonalAccountant.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -29,29 +30,28 @@ public class MainActivity extends FragmentActivity {
     // change here
     private CalendarCustomFragment calendarFragment;
 
-    private void setCustomResourceForDates(Date date) {
-        Calendar cal = Calendar.getInstance();
-        Date blueDate = null;
-
-//        cal.add(Calendar.DATE,)
-//        // Min date is last 7 days
-//        cal.add(Calendar.DATE, -18);
-//        Date blueDate = cal.getTime();
+//    private void setCustomResourceForDates(Date date) {
+//        Calendar cal = Calendar.getInstance();
+//        Date blueDate = null;
 //
-//        // Max date is next 7 days
-//        cal = Calendar.getInstance();
-//        cal.add(Calendar.DATE, 16);
-//        Date greenDate = cal.getTime();
-
-
-        if ( (calendarFragment != null) && (blueDate!=null)  ) {
-            calendarFragment.setBackgroundResourceForDate(R.color.blue,blueDate);
-//            calendarFragment.setBackgroundResourceForDate(R.color.green,
-//                    greenDate);
-            calendarFragment.setTextColorForDate(R.color.white, blueDate);
-//            calendarFragment.setTextColorForDate(R.color.white, greenDate);
-        }
-    }
+////        cal.add(Calendar.DATE,)
+////        // Min date is last 7 days
+////        cal.add(Calendar.DATE, -18);
+////        Date blueDate = cal.getTime();
+////
+////        // Max date is next 7 days
+////        cal = Calendar.getInstance();
+////        cal.add(Calendar.DATE, 16);
+////        Date greenDate = cal.getTime();
+//
+//        if ( (calendarFragment != null) && (blueDate!=null)  ) {
+//            calendarFragment.setBackgroundResourceForDate(R.color.blue,blueDate);
+////            calendarFragment.setBackgroundResourceForDate(R.color.green,
+////                    greenDate);
+//            calendarFragment.setTextColorForDate(R.color.white, blueDate);
+////            calendarFragment.setTextColorForDate(R.color.white, greenDate);
+//        }
+//    }
 
     private void setCustomResourceForDatesTest() {
         Calendar cal = Calendar.getInstance();
@@ -80,24 +80,24 @@ public class MainActivity extends FragmentActivity {
         calendarFragment = new CalendarCustomFragment();
         if (calendarFragment!=null) {
             OrderRepository categorydb = new OrderRepository(this);
-            for(int i=0;i<1;i++) {
-                UserOrder test = new UserOrder();
-                // name
-                test.setName("Name");
-                // price
-                test.setValue(10.50);
-                // date
-                Date dd = null;
-                try{
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // here set the pattern as you date in string was containing like date/month/year
-                    dd = sdf.parse("07/01/2015");
-                }catch(ParseException ex){
-                    // handle parsing exception if date string was different from the pattern applying into the SimpleDateFormat contructor
-                }
-                test.setCreatedDate(dd);
-                categorydb.insert(test);
-            }
-            Date dda = new Date();
+//            for(int i=0;i<1;i++) {
+//                UserOrder test = new UserOrder();
+//                // name
+//                test.setName("Name");
+//                // price
+//                test.setValue(10.50);
+//                // date
+//                Date dd = null;
+//                try{
+//                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // here set the pattern as you date in string was containing like date/month/year
+//                    dd = sdf.parse("07/01/2015");
+//                }catch(ParseException ex){
+//                    // handle parsing exception if date string was different from the pattern applying into the SimpleDateFormat contructor
+//                }
+//                test.setCreatedDate(dd);
+//                categorydb.insert(test);
+//            }
+//            Date dda = new Date();
             HashMap<String,List<UserOrder>> categoriesList= null;
             categoriesList=categorydb.getGroupAll();
             categorydb.close();
@@ -135,10 +135,14 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onSelectDate(Date date, View view) {
+                calendarFragment.clearSelectedDates();
                 Toast.makeText(getApplicationContext(), formatter.format(date),
                         Toast.LENGTH_SHORT).show();
 
-                setCustomResourceForDates(date);
+                Intent i = new Intent(MainActivity.this, ExpenseActivity.class);
+                i.putExtra("Current_Date", date.getTime());
+                startActivity(i);
+//                setCustomResourceForDates(date);
             }
 
             @Override
@@ -163,7 +167,6 @@ public class MainActivity extends FragmentActivity {
 //                            .show();
                 }
             }
-
         };
 
         // Setup Calendar

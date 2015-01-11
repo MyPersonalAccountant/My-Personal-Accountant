@@ -31,7 +31,7 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
     HashMap<String,List<UserOrder>> allOrders;
     public CalendarCustomAdapter (Context context, int month, int year,
                                   HashMap<String, Object> calendarData,
-                                  HashMap<String, Object> extraData, HashMap<String,List<UserOrder>> orders) {
+                                  HashMap<String, Object> extraData) {
         super(context, month, year, calendarData, extraData);
         this.allOrders= (HashMap<String,List<UserOrder>>)extraData.get("expenses");
     }

@@ -19,6 +19,7 @@ import androidcourse.com.myPersonalAccountant.entity.User;
 import androidcourse.com.myPersonalAccountant.entity.UserOrder;
 import androidcourse.com.myPersonalAccountant.sqlhelper.SqlRepository;
 import androidcourse.com.myPersonalAccountant.util.CalendarUtil;
+import androidcourse.com.myPersonalAccountant.util.ConstantsUtil;
 import androidcourse.com.myPersonalAccountant.util.SqlUtil;
 
 /**
@@ -93,6 +94,7 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
         while (cursor.isAfterLast() == false) {
             if (orderGroup!=null) {
                 UserOrder tempOrder=cursorToObj(cursor);
+//                Log.e("DATEFIELD",tempOrder.getCreatedDate().toString());
                 List<UserOrder> userList=orderGroup.get(formatter.format(tempOrder.getCreatedDate()));
                 if ( userList!=null ) {
                     userList.add(tempOrder);
@@ -113,6 +115,20 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
         return orderGroup;
     }
 
+    public List<UserOrder> getAllFromDate(Date dateParam) {
+        SimpleDateFormat formatter = new SimpleDateFormat(ConstantsUtil.DATE_FORMAT);
+        SQLiteDatabase db = this.getReadableDatabase();
+          Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " where " + DATABASE_COLUMN_CREATE_DATE + "='"+formatter.format(dateParam)+"'", null);
+        List<UserOrder> orders = new ArrayList<UserOrder>();
+        cursor.moveToFirst();
+        while (cursor.isAfterLast() == false) {
+            orders.add(cursorToObj(cursor));
+            cursor.moveToNext();
+        }
+
+        return orders;
+    }
+
     @Override
     protected UserOrder cursorToObj(Cursor cursor) {
         UserOrder order = new UserOrder();
@@ -121,6 +137,7 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
         order.setName(cursor.getString(cursor.getColumnIndex(DATABASE_COLUMN_NAME)));
         order.setDescription(cursor.getString(cursor.getColumnIndex(DATABASE_COLUMN_DESCRIPTION)));
 
+//        Log.e("PrimaryDate",cursor.getString(cursor.getColumnIndex(DATABASE_COLUMN_CREATE_DATE)));
         String createdDate = cursor.getString(cursor.getColumnIndex(DATABASE_COLUMN_CREATE_DATE));
         order.setCreatedDate(CalendarUtil.tryToParseDate(createdDate));
 

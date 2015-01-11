@@ -27,7 +27,7 @@ public class CalendarCustomFragment extends CaldroidFragment {
 
         extraData.put("expenses",orders);
         return new CalendarCustomAdapter(getActivity(), month, year,
-                getCaldroidData(), extraData, orders);
+                getCaldroidData(), extraData);
     }
 
     public void setOrders(HashMap<String,List<UserOrder>> orders) {
