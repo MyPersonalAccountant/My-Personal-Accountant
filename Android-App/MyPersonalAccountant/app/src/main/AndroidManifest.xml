@@ -34,7 +34,7 @@
             android:theme="@style/CustomActionBarTheme" >
         </activity>
         <activity
-            android:name="androidcourse.com.my_personal_accountant.AddOrderActivity"
+            android:name=".activity.AddOrderActivity"
             android:label="@string/title_activity_add_order" >
         </activity>
     </application>

@@ -1,4 +1,4 @@
-package androidcourse.com.my_personal_accountant;
+package androidcourse.com.myPersonalAccountant.activity;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
