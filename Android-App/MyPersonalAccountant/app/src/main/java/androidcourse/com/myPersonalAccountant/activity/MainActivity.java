@@ -2,9 +2,11 @@ package androidcourse.com.myPersonalAccountant.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,29 +32,6 @@ public class MainActivity extends FragmentActivity {
     // change here
     private CalendarCustomFragment calendarFragment;
 
-//    private void setCustomResourceForDates(Date date) {
-//        Calendar cal = Calendar.getInstance();
-//        Date blueDate = null;
-//
-////        cal.add(Calendar.DATE,)
-////        // Min date is last 7 days
-////        cal.add(Calendar.DATE, -18);
-////        Date blueDate = cal.getTime();
-////
-////        // Max date is next 7 days
-////        cal = Calendar.getInstance();
-////        cal.add(Calendar.DATE, 16);
-////        Date greenDate = cal.getTime();
-//
-//        if ( (calendarFragment != null) && (blueDate!=null)  ) {
-//            calendarFragment.setBackgroundResourceForDate(R.color.blue,blueDate);
-////            calendarFragment.setBackgroundResourceForDate(R.color.green,
-////                    greenDate);
-//            calendarFragment.setTextColorForDate(R.color.white, blueDate);
-////            calendarFragment.setTextColorForDate(R.color.white, greenDate);
-//        }
-//    }
-
     private void setCustomResourceForDatesTest() {
         Calendar cal = Calendar.getInstance();
 
@@ -74,11 +53,16 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        MainActivity.this.setTitle("Test");
+//        ((MainActivity) getActivity()).setActionBarTitle(YOUR_TITLE);
+
         final SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
         // Setup fragment
         calendarFragment = new CalendarCustomFragment();
         if (calendarFragment!=null) {
+//            dialogCaldroidFragment.setStyle(DialogFragment.STYLE_NORMAL,
+//                    android.R.style.Theme_Holo_Light_Dialog);
             OrderRepository categorydb = new OrderRepository(this);
 //            for(int i=0;i<1;i++) {
 //                UserOrder test = new UserOrder();
@@ -176,6 +160,13 @@ public class MainActivity extends FragmentActivity {
     /**
      * Save current states of the Calendar here
      */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         // TODO Auto-generated method stub
