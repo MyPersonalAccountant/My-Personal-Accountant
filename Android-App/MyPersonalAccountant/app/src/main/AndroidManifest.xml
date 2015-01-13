@@ -19,17 +19,18 @@
         <activity
             android:name=".activity.ExpenseActivity"
             android:label="@string/title_activity_expense"
-            android:theme="@style/Theme.AppCompat" >
+            android:theme="@style/CustomActionBarTheme">
+            <!--android:theme="@style/Theme.AppCompat" >-->
         </activity>
         <activity
             android:name=".activity.EditCategoryActivity"
             android:label="@string/title_activity_edit_category"
-            android:theme="@style/Theme.AppCompat" >
+            android:theme="@style/CustomActionBarTheme" >
         </activity>
         <activity
             android:name=".activity.NewExpenseActivity"
             android:label="@string/title_activity_new_expense"
-            android:theme="@style/Theme.AppCompat" >
+            android:theme="@style/CustomActionBarTheme" >
         </activity>
     </application>
 

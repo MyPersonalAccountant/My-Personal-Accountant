@@ -3,6 +3,7 @@ package androidcourse.com.myPersonalAccountant.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,16 +19,20 @@ public class CategoryAdapter extends BaseAdapter {
 
     private Context mContext;
     private TypedArray iconList;
+    private Integer[] iconListArray={R.drawable.banana,R.drawable.beer_bottle,R.drawable.beer_glass,R.drawable.birthday_cake,R.drawable.bread,
+            R.drawable.bunch_ingredients,R.drawable.carrot,R.drawable.cheese,R.drawable.cinnamon_roll,R.drawable.cocktail,
+            R.drawable.coffee,R.drawable.cooker,R.drawable.cooker_hood,R.drawable.cookies,R.drawable.cooking_pot,
+            R.drawable.corkscrew,R.drawable.cup,R.drawable.cupcake};
 
     public CategoryAdapter(Context c) {
         mContext = c;
-        Resources res = c.getResources();
-        iconList = res.obtainTypedArray(R.array.icon_pack_names);
+//        Resources res = c.getResources();
+//        iconList = res.obtainTypedArray(R.array.icon_pack_names);
     }
 
     @Override
     public int getCount() {
-        return iconList.length();
+        return iconListArray.length;
     }
 
     @Override
@@ -37,7 +42,7 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return iconList.getIndex(position);
+        return iconListArray[position];
     }
 
     @Override
@@ -52,7 +57,9 @@ public class CategoryAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageResource(iconList.getIndex(position));
+//        iconList.getd;
+//        Log.e("Icon",String.valueOf(iconList.getDrawable(position)));
+        imageView.setImageResource(iconListArray[position]);
         return imageView;
     }
 }

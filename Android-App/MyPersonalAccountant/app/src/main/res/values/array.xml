@@ -21,4 +21,25 @@
         <item>@drawable/cup</item>
         <item>@drawable/cupcake</item>
     </array>
+
+    <!--<array name="icon_pack_names">-->
+        <!--<item>R.drawable.banana</item>-->
+        <!--<item>R.drawable.beer_bottle</item>-->
+        <!--<item>R.drawable.beer_glass</item>-->
+        <!--<item>R.drawable.birthday_cake</item>-->
+        <!--<item>R.drawable.bread</item>-->
+        <!--<item>R.drawable.bunch_ingredients</item>-->
+        <!--<item>R.drawable.carrot</item>-->
+        <!--<item>R.drawable.cheese</item>-->
+        <!--<item>R.drawable.cinnamon_roll</item>-->
+        <!--<item>R.drawable.cocktail</item>-->
+        <!--<item>R.drawable.coffee</item>-->
+        <!--<item>R.drawable.cooker</item>-->
+        <!--<item>R.drawable.cooker_hood</item>-->
+        <!--<item>R.drawable.cookies</item>-->
+        <!--<item>R.drawable.cooking_pot</item>-->
+        <!--<item>R.drawable.corkscrew</item>-->
+        <!--<item>R.drawable.cup</item>-->
+        <!--<item>R.drawable.cupcake</item>-->
+    <!--</array>-->
 </resources>
