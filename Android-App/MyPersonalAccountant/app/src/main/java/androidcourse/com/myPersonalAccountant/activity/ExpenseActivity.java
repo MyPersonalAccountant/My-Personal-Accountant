@@ -1,5 +1,6 @@
 package androidcourse.com.myPersonalAccountant.activity;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +19,7 @@ import androidcourse.com.myPersonalAccountant.sqlhelperImpl.OrderRepository;
 
 public class ExpenseActivity extends ActionBarActivity {
 
-    private ListView list;
+    private ListView listView;
     private List<UserOrder> categoriesList;
     private ExpenseCustomAdapter adapterExpenseFromDate;
 
@@ -36,13 +37,10 @@ public class ExpenseActivity extends ActionBarActivity {
             categoriesList=categorydb.getAllFromDate(current_date);
             categorydb.close();
         }
-        Log.e("CoolStuffHere",String.valueOf(categoriesList.size()));
-        list = (ListView) findViewById(R.id.listview);
+        listView = (ListView) findViewById(R.id.listview);
 
         adapterExpenseFromDate = new ExpenseCustomAdapter(this,R.layout.expensecustomadapter_listitem, categoriesList);
-
-//        adapterSearchResults = new AllBrandsWithFilterAdapter(this, listBrands,true);
-//        listViewSearchResults.setAdapter(adapterSearchResults);
+        listView.setAdapter(adapterExpenseFromDate);
 
     }
 
@@ -62,7 +60,9 @@ public class ExpenseActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.add_expense) {
+            Intent i = new Intent(ExpenseActivity.this, NewExpenseActivity.class);
+            startActivity(i);
             return true;
         }
 

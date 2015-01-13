@@ -9,5 +9,7 @@
     <string name="undo">Undo</string>
     <string name="title_activity_expense">ExpenseActivity</string>
     <string name="add_expense">Add Expense</string>
+    <string name="title_activity_edit_category">EditCategoryActivity</string>
+    <string name="title_activity_new_expense">NewExpenseActivity</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package androidcourse.com.myPersonalAccountant.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import androidcourse.com.myPersonalAccountant.entity.UserOrder;
 public class ExpenseCustomAdapter extends ArrayAdapter {
     private List<UserOrder> expenseList;
     public ExpenseCustomAdapter(Context context, int resource,List<UserOrder> expenseList) {
-        super(context, resource);
+        super(context, resource, expenseList);
         this.expenseList=expenseList;
     }
 
@@ -44,7 +45,7 @@ public class ExpenseCustomAdapter extends ArrayAdapter {
         }
 
         TextView tvName = (TextView) convertView.findViewById(R.id.expenseName);
-        tvName.setText(String.valueOf(currentExpense.getExpense()));
+        tvName.setText(String.valueOf(currentExpense.getValue()));
 
         return convertView;
     }

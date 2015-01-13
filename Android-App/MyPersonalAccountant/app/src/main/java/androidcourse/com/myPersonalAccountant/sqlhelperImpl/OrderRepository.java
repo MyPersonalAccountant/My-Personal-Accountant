@@ -94,7 +94,6 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
         while (cursor.isAfterLast() == false) {
             if (orderGroup!=null) {
                 UserOrder tempOrder=cursorToObj(cursor);
-//                Log.e("DATEFIELD",tempOrder.getCreatedDate().toString());
                 List<UserOrder> userList=orderGroup.get(formatter.format(tempOrder.getCreatedDate()));
                 if ( userList!=null ) {
                     userList.add(tempOrder);

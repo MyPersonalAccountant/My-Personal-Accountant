@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="icon_pack_names_tests">
+        <item>@drawable/banana</item>
+        <item>@drawable/beer_bottle</item>
+        <item>@drawable/beer_glass</item>
+        <item>@drawable/birthday_cake</item>
+        <item>@drawable/bread</item>
+        <item>@drawable/bunch_ingredients</item>
+        <item>@drawable/carrot</item>
+        <item>@drawable/cheese</item>
+        <item>@drawable/cinnamon_roll</item>
+        <item>@drawable/cocktail</item>
+        <item>@drawable/coffee</item>
+        <item>@drawable/cooker</item>
+        <item>@drawable/cooker_hood</item>
+        <item>@drawable/cookies</item>
+        <item>@drawable/cooking_pot</item>
+        <item>@drawable/corkscrew</item>
+        <item>@drawable/cup</item>
+        <item>@drawable/cupcake</item>
+    </string-array>
+</resources>
