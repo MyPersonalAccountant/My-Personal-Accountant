@@ -6,18 +6,26 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import androidcourse.com.myPersonalAccountant.R;
+import androidcourse.com.myPersonalAccountant.adapters.CategoryAdapter;
 import androidcourse.com.myPersonalAccountant.adapters.ExpenseCustomAdapter;
+import androidcourse.com.myPersonalAccountant.entity.Expense;
 import androidcourse.com.myPersonalAccountant.entity.UserOrder;
 import androidcourse.com.myPersonalAccountant.sqlhelperImpl.OrderRepository;
 
-public class ExpenseActivity extends ActionBarActivity {
+public class ExpenseActivity extends ActionBarActivity implements OnItemClickListener {
 
     private ListView listView;
     private List<UserOrder> categoriesList;
@@ -42,6 +50,17 @@ public class ExpenseActivity extends ActionBarActivity {
         adapterExpenseFromDate = new ExpenseCustomAdapter(this,R.layout.expensecustomadapter_listitem, categoriesList);
         listView.setAdapter(adapterExpenseFromDate);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(ExpenseActivity.this, AddOrderActivity.class);
+                i.putExtra("orderID",categoriesList.get(position).getId());
+                i.putExtra("oderObject",categoriesList.get(position));
+                startActivity(i);
+//                Toast.makeText(getApplicationContext(),"bla "+ String.valueOf(categoriesList.get(position).getId()),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"bla",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -67,5 +86,10 @@ public class ExpenseActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(ExpenseActivity.this,"bla "+ String.valueOf(categoriesList.get(position).getId()),Toast.LENGTH_SHORT);
     }
 }

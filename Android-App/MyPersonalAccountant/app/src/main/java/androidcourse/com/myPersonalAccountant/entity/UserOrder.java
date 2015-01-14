@@ -1,5 +1,6 @@
 package androidcourse.com.myPersonalAccountant.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import androidcourse.com.myPersonalAccountant.sqlhelper.Entity;
@@ -7,7 +8,7 @@ import androidcourse.com.myPersonalAccountant.sqlhelper.Entity;
 /**
  * Created by Emrah.
  */
-public class UserOrder implements Entity {
+public class UserOrder implements Entity, Serializable {
     private Integer id;
     private String name;
     private String description;

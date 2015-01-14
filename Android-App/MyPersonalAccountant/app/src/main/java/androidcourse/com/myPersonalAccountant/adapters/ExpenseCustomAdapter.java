@@ -19,8 +19,10 @@ import androidcourse.com.myPersonalAccountant.entity.UserOrder;
  */
 public class ExpenseCustomAdapter extends ArrayAdapter {
     private List<UserOrder> expenseList;
+    private Context mContext;
     public ExpenseCustomAdapter(Context context, int resource,List<UserOrder> expenseList) {
         super(context, resource, expenseList);
+        mContext=context;
         this.expenseList=expenseList;
     }
 
@@ -41,7 +43,9 @@ public class ExpenseCustomAdapter extends ArrayAdapter {
         UserOrder currentExpense = getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.expensecustomadapter_listitem, parent, false);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.expensecustomadapter_listitem, null);
+//            convertView = LayoutInflater.from(getContext()).inflate(R.layout.expensecustomadapter_listitem, parent, false);
         }
 
         TextView tvName = (TextView) convertView.findViewById(R.id.expenseName);

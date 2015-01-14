@@ -15,7 +15,7 @@
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
         android:stretchMode="columnWidth"
-        android:gravity="center"
-        />
+        android:listSelector="#00343434"
+        android:gravity="center"/>
 
 </RelativeLayout>
