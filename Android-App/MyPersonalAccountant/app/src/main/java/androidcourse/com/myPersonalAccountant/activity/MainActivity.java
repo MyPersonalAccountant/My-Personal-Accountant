@@ -27,6 +27,7 @@ import androidcourse.com.myPersonalAccountant.sqlhelperImpl.OrderRepository;
 
 
 public class MainActivity extends FragmentActivity {
+    private  HashMap<String,List<UserOrder>> categoriesList;
 
     public Date lastClickedDate=null;
     // change here
@@ -61,31 +62,7 @@ public class MainActivity extends FragmentActivity {
         // Setup fragment
         calendarFragment = new CalendarCustomFragment();
         if (calendarFragment!=null) {
-//            dialogCaldroidFragment.setStyle(DialogFragment.STYLE_NORMAL,
-//                    android.R.style.Theme_Holo_Light_Dialog);
-            OrderRepository categorydb = new OrderRepository(this);
-//            for(int i=0;i<1;i++) {
-//                UserOrder test = new UserOrder();
-//                // name
-//                test.setName("Name");
-//                // price
-//                test.setValue(10.50);
-//                // date
-//                Date dd = null;
-//                try{
-//                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); // here set the pattern as you date in string was containing like date/month/year
-//                    dd = sdf.parse("07/01/2015");
-//                }catch(ParseException ex){
-//                    // handle parsing exception if date string was different from the pattern applying into the SimpleDateFormat contructor
-//                }
-//                test.setCreatedDate(dd);
-//                categorydb.insert(test);
-//            }
-//            Date dda = new Date();
-            HashMap<String,List<UserOrder>> categoriesList= null;
-            categoriesList=categorydb.getGroupAll();
-            categorydb.close();
-
+            this.categoriesList=loadData();
             calendarFragment.setOrders(categoriesList);
         }
 
@@ -120,27 +97,24 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onSelectDate(Date date, View view) {
                 calendarFragment.clearSelectedDates();
-                Toast.makeText(getApplicationContext(), formatter.format(date),
-                        Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(MainActivity.this, ExpenseActivity.class);
                 i.putExtra("Current_Date", date.getTime());
                 startActivity(i);
-//                setCustomResourceForDates(date);
             }
 
             @Override
             public void onChangeMonth(int month, int year) {
-                String text = "month: " + month + " year: " + year;
+//                String text = "month: " + month + " year: " + year;
 //                Toast.makeText(getApplicationContext(), text,
 //                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLongClickDate(Date date, View view) {
-                Toast.makeText(getApplicationContext(),
-                        "Long click " + formatter.format(date),
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),
+//                        "Long click " + formatter.format(date),
+//                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -155,6 +129,23 @@ public class MainActivity extends FragmentActivity {
 
         // Setup Calendar
         calendarFragment.setCaldroidListener(listener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (calendarFragment!=null) {
+            this.categoriesList=loadData();
+            calendarFragment.setOrders(categoriesList);
+        }
+    }
+
+    public HashMap<String,List<UserOrder>> loadData() {
+        OrderRepository categorydb = new OrderRepository(this);
+        HashMap<String,List<UserOrder>> categoriesList= null;
+        categoriesList=categorydb.getGroupAll();
+        categorydb.close();
+        return categoriesList;
     }
 
     /**

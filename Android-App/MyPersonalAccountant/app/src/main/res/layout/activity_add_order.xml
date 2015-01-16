@@ -52,17 +52,27 @@
         android:weightSum="1">
 
         <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.4"
+            android:textSize="8sp"
+            android:text="@string/delete"
+            android:visibility="invisible"/>
+
+        <Button
             android:id="@+id/cancelButton"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="0.5"
-        android:text="@string/cancel" />
+            android:textSize="8sp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.4"
+            android:text="@string/cancel" />
 
         <Button
             android:id="@+id/saveButton"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="0.5"
+        android:layout_weight="0.2"
         android:text="@string/submit" />
     </LinearLayout>
 </LinearLayout>

@@ -30,17 +30,18 @@ public class ExpenseActivity extends ActionBarActivity implements OnItemClickLis
     private ListView listView;
     private List<UserOrder> categoriesList;
     private ExpenseCustomAdapter adapterExpenseFromDate;
+    private Date current_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
 
-        Date current_date = new Date();
-        long date = getIntent().getLongExtra("Current_Date", -1);
+        current_date = new Date();
+        long long_date = getIntent().getLongExtra("Current_Date", -1);
 
-        if (date>-1) {
-            current_date.setTime(date);
+        if (long_date>-1) {
+            current_date.setTime(long_date);
             OrderRepository categorydb = new OrderRepository(this);
             categoriesList=categorydb.getAllFromDate(current_date);
             categorydb.close();
@@ -55,14 +56,53 @@ public class ExpenseActivity extends ActionBarActivity implements OnItemClickLis
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(ExpenseActivity.this, AddOrderActivity.class);
                 i.putExtra("orderID",categoriesList.get(position).getId());
+                i.putExtra("dateLong",current_date.getTime());
                 i.putExtra("oderObject",categoriesList.get(position));
-                startActivity(i);
-//                Toast.makeText(getApplicationContext(),"bla "+ String.valueOf(categoriesList.get(position).getId()),Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getApplicationContext(),"bla",Toast.LENGTH_SHORT).show();
+                startActivityForResult(i,1);
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                UserOrder userOrderObj = (UserOrder) data.getSerializableExtra("resultObj");
+                int orderID = data.getIntExtra("resultID",-1);
+                int actionTaken = data.getIntExtra("action_taken",-1);
+                if ( actionTaken<0 )  {
+                    Log.e("imaKategoriq",String.valueOf(userOrderObj.getCategory()));
+                    if (orderID>-1) {
+                        for (int i = 0; i < categoriesList.size(); i++) {
+                            UserOrder userObj = categoriesList.get(i);
+                            int oldID=userObj.getId();
+                            int getId=userOrderObj.getId();
+                            if (oldID==getId) {
+                                categoriesList.set(i,userOrderObj);
+                            }
+                        }
+                    } else {
+                        categoriesList.add(userOrderObj);
+                    }
+                    adapterExpenseFromDate.notifyDataSetChanged();
+                } else {
+                    if ( (actionTaken>-1) && (orderID>-1) ) {
+                        for (int i = 0; i < categoriesList.size(); i++) {
+                            UserOrder userObj = categoriesList.get(i);
+                            if (userObj.getId()==orderID) {
+                                categoriesList.remove(i);
+                            }
+                        }
+                        adapterExpenseFromDate.notifyDataSetChanged();
+                    }
+                }
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,8 +120,10 @@ public class ExpenseActivity extends ActionBarActivity implements OnItemClickLis
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.add_expense) {
-            Intent i = new Intent(ExpenseActivity.this, NewExpenseActivity.class);
-            startActivity(i);
+            Intent i = new Intent(ExpenseActivity.this, AddOrderActivity.class);
+            i.putExtra("dateLong",current_date.getTime());
+            startActivityForResult(i,1);
+
             return true;
         }
 

@@ -18,7 +18,17 @@ public class UserOrder implements Entity, Serializable {
     private Double value;
     private Schedule schedule;
     private Expense expense;
-    private Category category;
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
+    }
+
+    private Integer category;
+//    private Category category;
     private User user;
 
     public Integer getId() {
@@ -93,13 +103,13 @@ public class UserOrder implements Entity, Serializable {
         this.expense = expense;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+//    public Category getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(Category category) {
+//        this.category = category;
+//    }
 
     public User getUser() {
         return user;

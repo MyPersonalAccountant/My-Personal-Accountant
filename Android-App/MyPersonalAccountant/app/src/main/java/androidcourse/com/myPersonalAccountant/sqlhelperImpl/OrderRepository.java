@@ -78,22 +78,24 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
         cv.put(DATABASE_COLUMN_ON_VALUE, order.getValue());
 
         cv.put(DATABASE_COLUMN_EXPENSE_ID, order.getExpense() == null ? null : order.getExpense().getId());
-        cv.put(DATABASE_COLUMN_CATEGORY_ID, order.getCategory() == null ? null : order.getCategory().getId());
+        cv.put(DATABASE_COLUMN_CATEGORY_ID, order.getCategory());
+//        cv.put(DATABASE_COLUMN_CATEGORY_ID, order.getCategory() == null ? null : order.getCategory().getId());
         cv.put(DATABASE_COLUMN_USER_ID, order.getUser() == null ? null : order.getUser().getId());
 
         return cv;
     }
 
     public HashMap<String,List<UserOrder>> getGroupAll() {
+        String startExpenseDate="";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " ORDER BY "+ DATABASE_COLUMN_CREATE_DATE + " asc", null);
 
         HashMap<String,List<UserOrder>> orderGroup = new HashMap<String,List<UserOrder>>();
         Format formatter = new SimpleDateFormat("yyyy-MM-dd");
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false) {
-            if (orderGroup!=null) {
-                UserOrder tempOrder=cursorToObj(cursor);
+            UserOrder tempOrder=cursorToObj(cursor);
+            if ( !orderGroup.isEmpty()) {
                 List<UserOrder> userList=orderGroup.get(formatter.format(tempOrder.getCreatedDate()));
                 if ( userList!=null ) {
                     userList.add(tempOrder);
@@ -104,10 +106,13 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
                     orderGroup.put(formatter.format(tempOrder.getCreatedDate()),userList);
                 }
             } else {
-                UserOrder tempOrder=cursorToObj(cursor);
                 List<UserOrder> orders = new ArrayList<UserOrder>();
                 orders.add(tempOrder);
                 orderGroup.put(formatter.format(tempOrder.getCreatedDate()),orders);
+                if (startExpenseDate=="") {
+                    startExpenseDate=formatter.format(tempOrder.getCreatedDate());
+                    orderGroup.put("startExpenseDate",orders);
+                }
             }
             cursor.moveToNext();
         }
@@ -136,7 +141,6 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
         order.setName(cursor.getString(cursor.getColumnIndex(DATABASE_COLUMN_NAME)));
         order.setDescription(cursor.getString(cursor.getColumnIndex(DATABASE_COLUMN_DESCRIPTION)));
 
-//        Log.e("PrimaryDate",cursor.getString(cursor.getColumnIndex(DATABASE_COLUMN_CREATE_DATE)));
         String createdDate = cursor.getString(cursor.getColumnIndex(DATABASE_COLUMN_CREATE_DATE));
         order.setCreatedDate(CalendarUtil.tryToParseDate(createdDate));
 
@@ -145,6 +149,10 @@ public class OrderRepository extends RepositoryImpl<UserOrder> implements SqlRep
 
         Integer isPaid = cursor.getInt(cursor.getColumnIndex(DATABASE_COLUMN_ON_IS_PAID));
         order.setIsPaid(SqlUtil.intToBoolean(onServer));
+
+        order.setCategory(cursor.getInt(cursor.getColumnIndex(DATABASE_COLUMN_CATEGORY_ID)));
+//        Integer categoryID = cursor.getInt(cursor.getColumnIndex(DATABASE_COLUMN_ON_IS_PAID));
+//        order.setIsPaid(SqlUtil.intToBoolean(onServer));
 
         order.setValue(cursor.getDouble(cursor.getColumnIndex(DATABASE_COLUMN_ON_VALUE)));
 

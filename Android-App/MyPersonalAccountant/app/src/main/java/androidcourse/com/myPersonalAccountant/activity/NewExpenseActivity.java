@@ -21,7 +21,7 @@ public class NewExpenseActivity extends ActionBarActivity {
         setContentView(R.layout.activity_new_expense);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new CategoryAdapter(this));
+        gridview.setAdapter(new CategoryAdapter(this,0));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

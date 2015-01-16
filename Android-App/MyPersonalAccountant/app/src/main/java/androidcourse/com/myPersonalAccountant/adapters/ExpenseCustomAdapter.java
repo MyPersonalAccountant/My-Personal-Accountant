@@ -7,17 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import androidcourse.com.myPersonalAccountant.R;
 import androidcourse.com.myPersonalAccountant.entity.UserOrder;
+import androidcourse.com.myPersonalAccountant.util.ConstantsUtil;
 
 /**
  * Created by Ado on 1/10/2015.
  */
 public class ExpenseCustomAdapter extends ArrayAdapter {
+    private Integer[] iconListArray= ConstantsUtil.iconListArray;
     private List<UserOrder> expenseList;
     private Context mContext;
     public ExpenseCustomAdapter(Context context, int resource,List<UserOrder> expenseList) {
@@ -50,6 +53,12 @@ public class ExpenseCustomAdapter extends ArrayAdapter {
 
         TextView tvName = (TextView) convertView.findViewById(R.id.expenseName);
         tvName.setText(String.valueOf(currentExpense.getValue()));
+        ImageView imgView= (ImageView) convertView.findViewById(R.id.icon);
+        int imgResource=0;
+        if (currentExpense.getCategory()>0) {
+            imgResource=currentExpense.getCategory();
+        }
+        imgView.setImageResource(iconListArray[imgResource]);
 
         return convertView;
     }

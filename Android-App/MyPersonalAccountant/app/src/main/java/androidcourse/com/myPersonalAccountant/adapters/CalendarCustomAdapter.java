@@ -1,4 +1,4 @@
-package androidcourse.com.myPersonalAccountant.activity;
+package androidcourse.com.myPersonalAccountant.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -14,6 +14,7 @@ import com.roomorama.caldroid.CaldroidGridAdapter;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,12 +29,28 @@ import hirondelle.date4j.DateTime;
  * Created by Ado on 12/31/2014.
  */
 public class CalendarCustomAdapter extends CaldroidGridAdapter {
+    private double customMoney=200000;
+    Date firstExpenseDate;
+    Calendar getDateCalendar;
+    int year_start=-1;
+    int month_start=-1;
+    int day_start=-1;
     HashMap<String,List<UserOrder>> allOrders;
     public CalendarCustomAdapter (Context context, int month, int year,
                                   HashMap<String, Object> calendarData,
                                   HashMap<String, Object> extraData) {
         super(context, month, year, calendarData, extraData);
         this.allOrders= (HashMap<String,List<UserOrder>>)extraData.get("expenses");
+        this.firstExpenseDate= (Date) extraData.get("firstExpense");
+        if (this.firstExpenseDate!=null) {
+            getDateCalendar=Calendar.getInstance();
+            getDateCalendar.setTime(this.firstExpenseDate);
+            this.year_start = getDateCalendar.get(Calendar.YEAR);
+            this.month_start = getDateCalendar.get(Calendar.MONTH);
+            this.day_start = getDateCalendar.get(Calendar.DAY_OF_MONTH);
+        }
+
+        Log.e("STARTDAY",String.valueOf(day_start));
     }
 
     @Override
@@ -114,6 +131,16 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
             }
         }
 
+        if (getDateCalendar!=null) {
+            int day_now = dateTime.getDay();
+            int month_now = dateTime.getMonth();
+            int year_now = dateTime.getYear();
+
+            if (day_now==1) {
+                customMoney=200000;
+            }
+        }
+
         // set Date;
         tv1.setText("" + dateTime.getDay());
         Double spend=0.0;
@@ -127,6 +154,7 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
                 }
                 if (spend>0) {
                     tv2.setText("-"+spend.toString());
+                    customMoney-=spend;
                 } else {
                     tv2.setText("");
                 }
@@ -134,7 +162,7 @@ public class CalendarCustomAdapter extends CaldroidGridAdapter {
                 tv2.setText("");
             }
         }
-        tv3.setText("+200000");
+        tv3.setText(String.valueOf(customMoney));
 
         // Somehow after setBackgroundResource, the padding collapse.
         // This is to recover the padding

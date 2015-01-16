@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import androidcourse.com.myPersonalAccountant.R;
+import androidcourse.com.myPersonalAccountant.activity.AddOrderActivity;
 import androidcourse.com.myPersonalAccountant.util.ConstantsUtil;
 
 /**
@@ -20,11 +21,13 @@ import androidcourse.com.myPersonalAccountant.util.ConstantsUtil;
 public class CategoryAdapter extends BaseAdapter {
 
     private Context mContext;
+    private int selectedElement;
     private TypedArray iconList;
     private Integer[] iconListArray= ConstantsUtil.iconListArray;
     LayoutInflater inflater;
-    public CategoryAdapter(Context c) {
+    public CategoryAdapter(Context c,int selectedElement) {
         mContext = c;
+        this.selectedElement=selectedElement;
         inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -45,27 +48,19 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        View grid;
         if (convertView==null) {
-//            grid = new View(mContext);
             convertView = inflater.inflate(R.layout.custom_cell_category, null);
+        }
+
+        if (position== AddOrderActivity.selectdCell) {
+            convertView.setBackgroundColor(mContext.getResources().getColor(R.color.lightblue));
+        } else {
+            convertView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
         }
 
         ImageView imageView= (ImageView) convertView.findViewById(R.id.image);
         imageView.setImageResource(iconListArray[position]);
 
-//        if (convertView == null) {  // if it's not recycled, initialize some attributes
-//            imageView = new ImageView(mContext);
-//            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//            imageView.setPadding(8, 8, 8, 8);
-//        } else {
-//            imageView = (ImageView) convertView;
-//        }
-
-//        iconList.getd;
-//        Log.e("Icon",String.valueOf(iconList.getDrawable(position)));
-//        imageView.setImageResource(iconListArray[position]);
         return convertView;
     }
 }

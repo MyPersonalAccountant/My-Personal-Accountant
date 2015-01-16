@@ -12,10 +12,11 @@
     <string name="title_activity_edit_category">EditCategoryActivity</string>
     <string name="title_activity_new_expense">NewExpenseActivity</string>
     <string name="title_activity_add_order">AddOrderActivity</string>
-    <string name="price">Price</string>
+    <string name="price">0.0</string>
     <string name="category">Category</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
     <string name="date">Date</string>
 
 </resources>
