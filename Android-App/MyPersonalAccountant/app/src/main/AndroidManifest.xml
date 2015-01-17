@@ -36,6 +36,11 @@
         <activity
             android:name=".activity.AddOrderActivity"
             android:label="@string/title_activity_add_order"
+            android:theme="@style/CustomActionBarTheme" >
+        </activity>
+        <activity
+            android:name=".activity.StatisticsActivity"
+            android:label="@string/title_activity_statistics"
             android:theme="@style/CustomActionBarTheme">
         </activity>
     </application>

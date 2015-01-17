@@ -31,7 +31,7 @@ public class CalendarCustomFragment extends CaldroidFragment {
         // TODO Auto-generated method stub
 
         extraData.put("expenses",orders);
-        if ( (orders!=null) || (!orders.isEmpty()) ) {
+        if ( (orders!=null) && (!orders.isEmpty()) ) {
             extraData.put("firstExpense",orders.get("startExpenseDate").get(0).getCreatedDate());
         }
         customAdapter = new CalendarCustomAdapter(getActivity(), month, year,
